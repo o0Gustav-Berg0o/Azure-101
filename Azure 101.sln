@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36717.8 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11304.174 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blob", "Azure 101\Blob.csproj", "{0E207444-01AC-4D8C-BBDD-8B963A2293AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blob SDKs", "Blob SDKs\Blob SDKs.csproj", "{5F37FFF2-1F3F-4631-B18D-206F504634C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.API", "Vertical-slice-fullstack-template-master\ToDo.API\ToDo.API.csproj", "{104B4F2F-267E-56DE-BC42-A8A3EFA63411}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Domain", "Vertical-slice-fullstack-template-master\ToDo.Domain\ToDo.Domain.csproj", "{D4057CA5-125B-2645-522D-352DDE42E9CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{5F37FFF2-1F3F-4631-B18D-206F504634C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F37FFF2-1F3F-4631-B18D-206F504634C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F37FFF2-1F3F-4631-B18D-206F504634C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{104B4F2F-267E-56DE-BC42-A8A3EFA63411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{104B4F2F-267E-56DE-BC42-A8A3EFA63411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{104B4F2F-267E-56DE-BC42-A8A3EFA63411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{104B4F2F-267E-56DE-BC42-A8A3EFA63411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
