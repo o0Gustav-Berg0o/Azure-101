@@ -129,8 +129,9 @@ namespace MLT2_Läxa.Services
                 await connection.OpenAsync();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex);
                 return false;
             }
         }
