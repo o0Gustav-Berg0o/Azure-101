@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11304.174 d18.0
+VisualStudioVersion = 18.1.11304.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blob", "Azure 101\Blob.csproj", "{0E207444-01AC-4D8C-BBDD-8B963A2293AF}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.API", "Vertical-slice-fullstack-template-master\ToDo.API\ToDo.API.csproj", "{104B4F2F-267E-56DE-BC42-A8A3EFA63411}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Domain", "Vertical-slice-fullstack-template-master\ToDo.Domain\ToDo.Domain.csproj", "{D4057CA5-125B-2645-522D-352DDE42E9CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLT2-Läxa", "MLT2-Läxa\MLT2-Läxa.csproj", "{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4057CA5-125B-2645-522D-352DDE42E9CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
