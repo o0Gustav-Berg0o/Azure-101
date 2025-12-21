@@ -1,0 +1,6 @@
+@ML3___Configuration_manager_HostAddress = http://localhost:5144
+
+GET {{ML3___Configuration_manager_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

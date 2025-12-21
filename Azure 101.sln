@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Domain", "Vertical-sli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLT2-Läxa", "MLT2-Läxa\MLT2-Läxa.csproj", "{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetodIMolnet", "MetodIMolnet\MetodIMolnet.csproj", "{1B6A1C93-039F-410A-9B3C-A154AA00D0EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ML3 - Configuration manager", "ML3 - Configuration manager\ML3 - Configuration manager.csproj", "{D597AB73-B1C1-4B6A-A804-4AE58B1C3676}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6263FB5-5C4C-47B2-9DEF-88E314DA116E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B6A1C93-039F-410A-9B3C-A154AA00D0EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B6A1C93-039F-410A-9B3C-A154AA00D0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B6A1C93-039F-410A-9B3C-A154AA00D0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B6A1C93-039F-410A-9B3C-A154AA00D0EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D597AB73-B1C1-4B6A-A804-4AE58B1C3676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D597AB73-B1C1-4B6A-A804-4AE58B1C3676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D597AB73-B1C1-4B6A-A804-4AE58B1C3676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D597AB73-B1C1-4B6A-A804-4AE58B1C3676}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
