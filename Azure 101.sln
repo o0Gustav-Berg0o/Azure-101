@@ -21,6 +21,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moln.A2", "Moln.KeyVault\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLT3 Key vault", "MLT3 Key vault\MLT3 Key vault.csproj", "{9AFE1EC8-AB9D-4959-832D-E8D4A478D33B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyVaultRetrival", "KeyVaultRetrival\KeyVaultRetrival.csproj", "{317718F0-4A3B-404D-A57F-8D21E865F367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "ServiceBusDemo\Consumer\Consumer.csproj", "{7E2C0559-4DB7-7F5F-9DF9-EBF2BB3B380A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Publisher", "ServiceBusDemo\Publisher\Publisher.csproj", "{5311AE65-BF18-77B2-00C8-08FA69C77FE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViLoggar.App", "ViLoggar.App\ViLoggar.App.csproj", "{9C39DE6F-9318-4D6F-BF07-D5D50287993B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppInsightLargerDemo.App", "AppInsightLargerDemo.App\AppInsightLargerDemo.App.csproj", "{3700FC74-846F-407E-8B6D-5861D3F8E289}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +73,26 @@ Global
 		{9AFE1EC8-AB9D-4959-832D-E8D4A478D33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AFE1EC8-AB9D-4959-832D-E8D4A478D33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AFE1EC8-AB9D-4959-832D-E8D4A478D33B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{317718F0-4A3B-404D-A57F-8D21E865F367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{317718F0-4A3B-404D-A57F-8D21E865F367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{317718F0-4A3B-404D-A57F-8D21E865F367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{317718F0-4A3B-404D-A57F-8D21E865F367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2C0559-4DB7-7F5F-9DF9-EBF2BB3B380A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2C0559-4DB7-7F5F-9DF9-EBF2BB3B380A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2C0559-4DB7-7F5F-9DF9-EBF2BB3B380A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2C0559-4DB7-7F5F-9DF9-EBF2BB3B380A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5311AE65-BF18-77B2-00C8-08FA69C77FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5311AE65-BF18-77B2-00C8-08FA69C77FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5311AE65-BF18-77B2-00C8-08FA69C77FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5311AE65-BF18-77B2-00C8-08FA69C77FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C39DE6F-9318-4D6F-BF07-D5D50287993B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C39DE6F-9318-4D6F-BF07-D5D50287993B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C39DE6F-9318-4D6F-BF07-D5D50287993B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C39DE6F-9318-4D6F-BF07-D5D50287993B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3700FC74-846F-407E-8B6D-5861D3F8E289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3700FC74-846F-407E-8B6D-5861D3F8E289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3700FC74-846F-407E-8B6D-5861D3F8E289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3700FC74-846F-407E-8B6D-5861D3F8E289}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
