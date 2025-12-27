@@ -1,266 +1,167 @@
-using Microsoft.ApplicationInsights;
+ï»¿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
+using Scalar.AspNetCore;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lägg till Application Insights
-builder.Services.AddApplicationInsightsTelemetry(options =>
-{
-    options.ConnectionString = builder.Configuration["Your Connection String here"];
-});
+// Application Insights (modern setup)
+builder.Services.AddApplicationInsightsTelemetry();
 
-//https://localhost:7201/swagger/index.html
+builder.Services.AddOpenApi();
+// OpenAPI (fÃ¶r Scalar)
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient();
 
-// Registrera TelemetryClient som singleton för custom tracking
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<TelemetryClient>();
 
 var app = builder.Build();
 
+// Scalar istÃ¤llet fÃ¶r Swagger UI
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+
+    app.Lifetime.ApplicationStarted.Register(() =>
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "https://localhost:7201/scalar",
+            UseShellExecute = true
+        });
+    });
 }
 
-app.UseHttpsRedirection();
 
-// Demo 1: Enkel request som automatiskt trackas
+
+// Demo 1
 app.MapGet("/api/hello", () =>
-{
-    return Results.Ok(new { message = "Hello from Application Insights Demo!", timestamp = DateTime.UtcNow });
-})
-.WithName("GetHello")
-.WithOpenApi();
+    Results.Ok(new { message = "Hello!", timestamp = DateTime.UtcNow }));
 
-// Demo 2: Custom Event Tracking - Business metrics
+// Demo 2
 app.MapPost("/api/order", (OrderRequest order, TelemetryClient telemetry) =>
 {
-    // Tracka custom business event
-    var properties = new Dictionary<string, string>
-    {
-        { "ProductId", order.ProductId },
-        { "CustomerId", order.CustomerId },
-        { "Category", "Electronics" }
-    };
+    telemetry.TrackEvent(
+        "OrderPlaced",
+        new Dictionary<string, string>
+        {
+            ["ProductId"] = order.ProductId,
+            ["CustomerId"] = order.CustomerId
+        },
+        new Dictionary<string, double>
+        {
+            ["Amount"] = order.Amount,
+            ["Quantity"] = order.Quantity
+        });
 
-    var metrics = new Dictionary<string, double>
-    {
-        { "Amount", order.Amount },
-        { "Quantity", order.Quantity }
-    };
+    return Results.Ok(new { orderId = Guid.NewGuid() });
+});
 
-    telemetry.TrackEvent("OrderPlaced", properties, metrics);
-
-    return Results.Ok(new { orderId = Guid.NewGuid(), status = "Created" });
-})
-.WithName("CreateOrder")
-.WithOpenApi();
-
-// Demo 3: Custom Metrics - Performance counter
+// Demo 3
 app.MapGet("/api/metrics/queue", (TelemetryClient telemetry) =>
 {
-    // Simulera queue length metric
-    var queueLength = Random.Shared.Next(0, 100);
-    telemetry.TrackMetric("QueueLength", queueLength);
+    telemetry.TrackMetric("QueueLength", Random.Shared.Next(0, 100));
+    return Results.Ok();
+});
 
-    // Metric med additional properties
-    var metric = new MetricTelemetry("ProcessingTime", Random.Shared.Next(100, 1000));
-    metric.Properties.Add("Operation", "DataProcessing");
-    telemetry.TrackMetric(metric);
+// Demo 4
+app.MapGet("/api/weather", async (HttpClient http, TelemetryClient telemetry) =>
+{
+    var res = await http.GetAsync("https://api.open-meteo.com/v1/forecast?latitude=60&longitude=18&current_weather=true");
+    telemetry.TrackEvent("WeatherFetched");
+    return Results.Ok();
+});
 
-    return Results.Ok(new { queueLength, message = "Metrics tracked!" });
-})
-.WithName("TrackMetrics")
-.WithOpenApi();
+// Demo 5
+app.MapGet("/api/products/{id:int}", async (int id, TelemetryClient telemetry) =>
+{
+    using var op = telemetry.StartOperation<DependencyTelemetry>("ProductDatabase");
+    await Task.Delay(100);
+    op.Telemetry.Success = true;
 
-// Demo 4: Dependency Tracking - Externa anrop
-app.MapGet("/api/weather/{city}", async (string city, HttpClient httpClient, TelemetryClient telemetry) =>
+    return Results.Ok(new { id, name = $"Product {id}" });
+});
+
+// Demo 6
+app.MapGet("/api/error", (TelemetryClient telemetry) =>
 {
     try
     {
-        // HTTP dependency trackas automatiskt
-        var response = await httpClient.GetAsync($"https://api.open-meteo.com/v1/forecast?latitude=60.67&longitude=17.14&current_weather=true");
-
-        if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadAsStringAsync();
-            telemetry.TrackEvent("WeatherFetched", new Dictionary<string, string> { { "City", city } });
-            return Results.Ok(new { city, data = "Weather data retrieved", status = "success" });
-        }
-
-        return Results.Problem("Failed to fetch weather data");
+        throw new InvalidOperationException("Demo exception");
     }
     catch (Exception ex)
     {
         telemetry.TrackException(ex);
-        return Results.Problem("Error fetching weather");
+        return Results.Problem(ex.Message);
     }
-})
-.WithName("GetWeather")
-.WithOpenApi();
+});
 
-// Demo 5: Custom Dependency Tracking - Databas-anrop (simulerat)
-app.MapGet("/api/products/{id}", async (int id, TelemetryClient telemetry) =>
+// Demo 7
+app.MapGet("/api/slow/{ms:int}", async (int ms, TelemetryClient telemetry) =>
 {
-    var dependency = telemetry.StartOperation<DependencyTelemetry>("ProductDatabase");
-    dependency.Telemetry.Type = "SQL";
-    dependency.Telemetry.Data = $"SELECT * FROM Products WHERE Id = {id}";
+    using var op = telemetry.StartOperation<RequestTelemetry>("SlowOperation");
+    await Task.Delay(ms);
+    return Results.Ok();
+});
 
-    try
-    {
-        // Simulera databas-anrop
-        await Task.Delay(Random.Shared.Next(50, 200));
-
-        var product = new { id, name = $"Product {id}", price = Random.Shared.Next(10, 1000) };
-
-        dependency.Telemetry.Success = true;
-        dependency.Telemetry.ResultCode = "200";
-
-        return Results.Ok(product);
-    }
-    catch (Exception ex)
-    {
-        dependency.Telemetry.Success = false;
-        telemetry.TrackException(ex);
-        return Results.Problem("Database error");
-    }
-    finally
-    {
-        telemetry.StopOperation(dependency);
-    }
-})
-.WithName("GetProduct")
-.WithOpenApi();
-
-// Demo 6: Exception Tracking
-app.MapGet("/api/error/{type}", (string type, TelemetryClient telemetry) =>
+// Demo 8
+app.MapGet("/api/process/{items:int}", (int items, TelemetryClient telemetry) =>
 {
-    try
-    {
-        switch (type.ToLower())
-        {
-            case "null":
-                string? nullString = null;
-                return Results.Ok(nullString!.Length); // Kastar NullReferenceException
-
-            case "divide":
-                var result = 10 / int.Parse("0"); // Kastar DivideByZeroException
-                return Results.Ok(result);
-
-            case "custom":
-                throw new InvalidOperationException("Detta är en custom exception för demo!");
-
-            default:
-                return Results.BadRequest("Unknown error type. Try: null, divide, or custom");
-        }
-    }
-    catch (Exception ex)
-    {
-        // Tracka exception med extra context
-        var exceptionTelemetry = new ExceptionTelemetry(ex);
-        exceptionTelemetry.Properties.Add("ErrorType", type);
-        exceptionTelemetry.Properties.Add("UserId", "demo-user-123");
-        exceptionTelemetry.SeverityLevel = SeverityLevel.Error;
-
-        telemetry.TrackException(exceptionTelemetry);
-
-        return Results.Problem($"Exception tracked: {ex.Message}");
-    }
-})
-.WithName("TriggerError")
-.WithOpenApi();
-
-// Demo 7: Performance tracking med olika response times
-app.MapGet("/api/slow/{delay}", async (int delay, TelemetryClient telemetry) =>
-{
-    var operation = telemetry.StartOperation<RequestTelemetry>("SlowOperation");
-    operation.Telemetry.Properties.Add("RequestedDelay", delay.ToString());
-
-    try
-    {
-        // Simulera långsam operation
-        await Task.Delay(delay);
-
-        operation.Telemetry.Success = true;
-        operation.Telemetry.ResponseCode = "200";
-
-        return Results.Ok(new { message = $"Completed after {delay}ms", duration = delay });
-    }
-    finally
-    {
-        telemetry.StopOperation(operation);
-    }
-})
-.WithName("SlowEndpoint")
-.WithOpenApi();
-
-// Demo 8: Trace/Logging
-app.MapGet("/api/process/{items}", (int items, TelemetryClient telemetry, ILogger<Program> logger) =>
-{
-    logger.LogInformation("Processing started with {ItemCount} items", items);
     telemetry.TrackTrace($"Processing {items} items", SeverityLevel.Information);
+    return Results.Ok();
+});
 
-    for (int i = 0; i < items; i++)
-    {
-        if (i % 10 == 0)
-        {
-            telemetry.TrackTrace($"Processed {i}/{items} items",
-                SeverityLevel.Verbose,
-                new Dictionary<string, string> { { "Progress", $"{(i * 100 / items)}%" } });
-        }
-    }
-
-    logger.LogInformation("Processing completed");
-    telemetry.TrackTrace($"Completed processing {items} items", SeverityLevel.Information);
-
-    return Results.Ok(new { processed = items, status = "completed" });
-})
-.WithName("ProcessItems")
-.WithOpenApi();
-
-// Demo 9: Availability tracking
+// Demo 9
 app.MapGet("/api/health", (TelemetryClient telemetry) =>
 {
-    var availability = new AvailabilityTelemetry
+    telemetry.TrackAvailability(new AvailabilityTelemetry
     {
-        Name = "Health Check",
-        RunLocation = "Azure-SwedenCentral",
+        Name = "HealthCheck",
         Success = true,
-        Duration = TimeSpan.FromMilliseconds(Random.Shared.Next(10, 100))
-    };
+        Duration = TimeSpan.FromMilliseconds(50)
+    });
 
-    availability.Properties.Add("HealthStatus", "Healthy");
-    telemetry.TrackAvailability(availability);
+    return Results.Ok("Healthy");
+});
 
-    return Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow });
-})
-.WithName("HealthCheck")
-.WithOpenApi();
-
-// Demo 10: Page View tracking (simulerat för API)
-app.MapGet("/api/pageview/{pageName}", (string pageName, TelemetryClient telemetry) =>
+// Demo 10
+app.MapGet("/api/pageview/{page}", (string page, TelemetryClient telemetry) =>
 {
-    var pageView = new PageViewTelemetry(pageName)
+    telemetry.TrackPageView(page);
+    return Results.Ok();
+});
+
+//Live Metric endpoint
+app.MapGet("/api/live-metrics-stress", (TelemetryClient telemetry) =>
+{
+    // Kraftigare CPU (single request rÃ¤cker)
+    var sw = Stopwatch.StartNew();
+    while (sw.Elapsed < TimeSpan.FromSeconds(5))
     {
-        Url = new Uri($"https://demo.example.com/{pageName}"),
-        Duration = TimeSpan.FromMilliseconds(Random.Shared.Next(500, 2000))
-    };
+        for (int i = 0; i < 1_000_000; i++)
+        {
+            Math.Pow(i, 1.5);
+        }
 
-    pageView.Properties.Add("Browser", "Chrome");
-    pageView.Properties.Add("DeviceType", "Desktop");
 
-    telemetry.TrackPageView(pageView);
+    }
 
-    return Results.Ok(new { page = pageName, tracked = true });
-})
-.WithName("TrackPageView")
-.WithOpenApi();
+    for (int i = 0; i < 50; i++)
+    {
+        telemetry.TrackException(
+            new InvalidOperationException($"Tracked exception {i}")
+        );
+    }
+
+    // Unhandled exception (rÃ¤knas i Exception rate)
+    throw new ApplicationException("Final unhandled exception");
+
+   
+
+});
 
 app.Run();
 
-// Request models
 public record OrderRequest(string ProductId, string CustomerId, double Amount, int Quantity);

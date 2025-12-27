@@ -1,0 +1,6 @@
+@SlutProv.Api_HostAddress = http://localhost:5124
+
+GET {{SlutProv.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
