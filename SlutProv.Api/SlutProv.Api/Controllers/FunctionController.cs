@@ -26,18 +26,15 @@ public class FunctionController : ControllerBase
         try
         {
             // TODO 1: Hämta Function URL från config
-            var functionUrl = _config["Azure:FunctionUrl"];
 
             // TODO 2: Skicka HTTP POST till Function
-            var content = new StringContent($"\"{data}\"", System.Text.Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(functionUrl, content);
+          
 
             // TODO 3: Läs response
-            var result = await response.Content.ReadAsStringAsync();
 
-            _logger.LogInformation($"Function response: {result}");
+            _logger.LogInformation($"Function response: result");
 
-            return Ok(new { functionResponse = result });
+            return Ok(new { functionResponse = "result" });
         }
         catch (Exception ex)
         {

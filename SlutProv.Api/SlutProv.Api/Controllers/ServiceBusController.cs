@@ -25,17 +25,15 @@ public class ServiceBusController : ControllerBase
         try
         {
             // TODO 1: Skapa ServiceBusClient
-            var connectionString = _config["Azure:ServiceBus"];
-            await using var client = new ServiceBusClient(connectionString);
+         
 
             // TODO 2: Skapa sender för queue
-            var sender = client.CreateSender("image-processing-queue");
+          
 
             // TODO 3: Skicka meddelande
-            var serviceBusMessage = new ServiceBusMessage(message);
-            await sender.SendMessageAsync(serviceBusMessage);
+      
 
-            _logger.LogInformation($"Sent message: {message}");
+            _logger.LogInformation($"Sent message: message");
 
             return Ok(new { message = "Message sent successfully" });
         }
@@ -55,26 +53,22 @@ public class ServiceBusController : ControllerBase
         try
         {
             // TODO 4: Skapa ServiceBusClient
-            var connectionString = _config["Azure:ServiceBus"];
-            await using var client = new ServiceBusClient(connectionString);
+           
 
             // TODO 5: Skapa receiver för queue
-            var receiver = client.CreateReceiver("image-processing-queue");
+          
 
             // TODO 6: Ta emot meddelande (max 10 sekunder wait)
-            var message = await receiver.ReceiveMessageAsync(TimeSpan.FromSeconds(10));
+         
 
-            if (message == null)
-                return Ok(new { message = "No messages in queue" });
-
-            var body = message.Body.ToString();
+          
 
             // TODO 7: Complete meddelandet (ta bort från queue)
-            await receiver.CompleteMessageAsync(message);
+        
 
-            _logger.LogInformation($"Received message: {body}");
+            _logger.LogInformation($"Received message: body");
 
-            return Ok(new { message = body });
+            return Ok(new { message = "body" });
         }
         catch (Exception ex)
         {

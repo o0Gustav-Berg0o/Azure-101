@@ -29,13 +29,10 @@ public class DatabaseController : ControllerBase
         try
         {
             // TODO 1: Sätt UploadedAt till nu
-            metadata.UploadedAt = DateTime.UtcNow;
 
             // TODO 2: Lägg till i context
-            _context.Images.Add(metadata);
 
             // TODO 3: Spara ändringar
-            await _context.SaveChangesAsync();
 
             _logger.LogInformation($"Created image metadata with ID: {metadata.Id}");
 
@@ -57,11 +54,9 @@ public class DatabaseController : ControllerBase
         try
         {
             // TODO 4: Hämta alla images, sortera på UploadedAt descending
-            var images = await _context.Images
-                .OrderByDescending(i => i.UploadedAt)
-                .ToListAsync();
+           
 
-            return Ok(images);
+            return Ok("images");
         }
         catch (Exception ex)
         {

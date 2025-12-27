@@ -28,20 +28,15 @@ public class BlobController : ControllerBase
         try
         {
             // TODO 1: Skapa BlobServiceClient med connection string från config
-            var connectionString = _config["Azure:BlobStorage"];
-            var blobServiceClient = new BlobServiceClient(connectionString);
+          
 
             // TODO 2: Hämta container
-            var containerClient = blobServiceClient.GetBlobContainerClient("images");
 
             // TODO 3: Generera unikt blob-namn
-            var blobName = $"{Guid.NewGuid()}_{file.FileName}";
-            var blobClient = containerClient.GetBlobClient(blobName);
-
+       
             // TODO 4: Ladda upp filen
-            await blobClient.UploadAsync(file.OpenReadStream(), overwrite: true);
 
-            _logger.LogInformation($"Uploaded blob: {blobName}");
+            _logger.LogInformation($"Uploaded blob: blobName");
 
             return Ok(new
             {
@@ -66,25 +61,14 @@ public class BlobController : ControllerBase
         try
         {
             // TODO 5: Skapa BlobServiceClient
-            var connectionString = _config["Azure:BlobStorage"];
-            var blobServiceClient = new BlobServiceClient(connectionString);
+            
 
             // TODO 6: Hämta container
-            var containerClient = blobServiceClient.GetBlobContainerClient("images");
 
             // TODO 7: Lista alla blobs
-            var blobs = new List<object>();
-            await foreach (var blobItem in containerClient.GetBlobsAsync())
-            {
-                blobs.Add(new
-                {
-                    name = blobItem.Name,
-                    size = blobItem.Properties.ContentLength,
-                    createdOn = blobItem.Properties.CreatedOn
-                });
-            }
+            
 
-            return Ok(blobs);
+            return Ok("blobs");
         }
         catch (Exception ex)
         {
