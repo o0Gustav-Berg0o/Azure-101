@@ -23,7 +23,25 @@ public class DatabaseController : ControllerBase
     /// <summary>
     /// Spara metadata i databasen
     /// </summary>
+    /// <param name="request">Bildmetadata att spara (endast fileName och blobUrl)</param>
+    /// <returns>Den sparade bildmetadatan med genererat ID och uploadedAt</returns>
+    /// <remarks>
+    /// Exempel:
+    /// 
+    ///     POST /api/database/create
+    ///     {
+    ///         "fileName": "sunset.jpg",
+    ///         "blobUrl": "https://stimageservicetest.blob.core.windows.net/images/sunset.jpg"
+    ///     }
+    /// 
+    /// </remarks>
+    /// <response code="200">Metadata sparades framgångsrikt</response>
+    /// <response code="400">Ogiltig input</response>
+    /// <response code="500">Serverfel</response>
     [HttpPost("create")]
+    [ProducesResponseType(typeof(ImageMetadata), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([FromBody] ImageMetadata metadata)
     {
         try
@@ -48,7 +66,12 @@ public class DatabaseController : ControllerBase
     /// <summary>
     /// Hämta alla metadata från databasen
     /// </summary>
+    /// <returns>Lista med bildmetadata, sorterade efter uppladdningsdatum (nyast först)</returns>
+    /// <response code="200">Lista returnerades framgångsrikt</response>
+    /// <response code="500">Serverfel</response>
     [HttpGet("list")]
+    [ProducesResponseType(typeof(List<ImageMetadata>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> List()
     {
         try

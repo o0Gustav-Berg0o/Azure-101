@@ -19,7 +19,16 @@ public class BlobController : ControllerBase
     /// <summary>
     /// Ladda upp en fil till Blob Storage
     /// </summary>
+    /// <param name="file">Filen att ladda upp</param>
+    /// <remarks>
+    /// Laddar upp en fil till 'images' container i Azure Blob Storage.
+    /// Filen får ett unikt namn (GUID + originalfilnamn).
+    /// </remarks>
+    /// <response code="200">Fil uppladdad framgångsrikt</response>
+    /// <response code="400">Ingen fil vald eller fil är tom</response>
     [HttpPost("upload")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Upload(IFormFile file)
     {
         if (file == null || file.Length == 0)
@@ -55,7 +64,12 @@ public class BlobController : ControllerBase
     /// <summary>
     /// Lista alla filer i Blob Storage
     /// </summary>
+    /// <remarks>
+    /// Returnerar alla filer i 'images' container med metadata.
+    /// </remarks>
+    /// <response code="200">Lista med filer returnerad</response>
     [HttpGet("list")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> List()
     {
         try

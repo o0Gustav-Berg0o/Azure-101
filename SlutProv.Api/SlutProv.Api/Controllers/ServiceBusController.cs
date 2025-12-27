@@ -19,7 +19,19 @@ public class ServiceBusController : ControllerBase
     /// <summary>
     /// Skicka ett meddelande till Service Bus
     /// </summary>
+    /// <param name="request">Meddelandet att skicka</param>
+    /// <remarks>
+    /// Exempel:
+    /// 
+    ///     POST /api/servicebus/send
+    ///     {
+    ///         "message": "Hello from API"
+    ///     }
+    /// 
+    /// </remarks>
+    /// <response code="200">Meddelande skickat framgångsrikt</response>
     [HttpPost("send")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Send([FromBody] string message)
     {
         try
@@ -47,7 +59,12 @@ public class ServiceBusController : ControllerBase
     /// <summary>
     /// Ta emot ett meddelande från Service Bus
     /// </summary>
+    /// <remarks>
+    /// Tar emot och tar bort ett meddelande från 'image-processing-queue'. Max väntetid 10 sekunder.
+    /// </remarks>
+    /// <response code="200">Meddelande mottaget eller kön är tom</response>
     [HttpPost("receive")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Receive()
     {
         try
@@ -60,7 +77,6 @@ public class ServiceBusController : ControllerBase
 
             // TODO 6: Ta emot meddelande (max 10 sekunder wait)
          
-
           
 
             // TODO 7: Complete meddelandet (ta bort från queue)
