@@ -6,10 +6,10 @@ internal class Program
     {
 
         var accountUri = "https://gustavsblobbar.blob.core.windows.net";
-        var container = "containerfynd";
-        var blobName = "bob (2).docx";
+        var container = "bob";
+        var blobName = "aaa.docx";
 
-        var sas = "sp=r&st=2025-12-04T14:07:34Z&se=2025-12-04T22:22:34Z&spr=https&sv=2024-11-04&sr=b&sig=kinNnRh1wU5dlRqiZrUtbFaicg0KHff%2BVBMZhs2b%2Fa0%3D";
+        var sas = "sp=r&st=2026-01-08T08:18:04Z&se=2026-01-08T16:33:04Z&spr=https&sv=2024-11-04&sr=b&sig=qnXSJD9V3t1tEz%2F1oItbfx5AlY1kurxUy0pXzxOP%2Bj0%3D";
 
         var url = $"{accountUri}/{container}/{Uri.EscapeDataString(blobName)}?{sas}";
 

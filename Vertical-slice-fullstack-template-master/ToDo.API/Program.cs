@@ -27,7 +27,7 @@ namespace ToDo.API
 
             builder.Services.AddDbContext<ToDoAppContext>(options =>
             options.UseSqlServer(
-            builder.Configuration.GetConnectionString("Default")
+            builder.Configuration.GetConnectionString("AzureSQL")
             ));
 
             var app = builder.Build();

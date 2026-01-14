@@ -69,7 +69,7 @@ namespace ConfigurationDemo.Controllers
 
             object result = new
             {
-                KeyVaultStatus = Program.KeyVaultStatus,
+                KeyVaultStatus = ConfigurationDemo.Program.KeyVaultStatus,
                 KeyVaultError = Program.KeyVaultError,
                 KeyVaultWorking = keyVaultWorking,
 
